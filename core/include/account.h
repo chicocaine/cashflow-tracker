@@ -1,18 +1,20 @@
 #ifndef ACCOUNT_H
 #define ACCOUNT_H
 
-typedef struct AccountType {
-  int id;
-  char name[50];
-} AccountType;
+enum AccountType {
+  LIQUID = 0,
+  SAVINGS = 1,
+  CREDIT = 2,
+  INVESTMENT = 3
+};
 
 typedef struct Account {
   int id;
   char name[50];
   char note[200];
   double balance;
-  
-  AccountType type;
+
+  enum AccountType type;
 } Account;
 
 #endif // ACCOUNT_H
