@@ -1,5 +1,4 @@
 #include "account.h"
-#include <stdio.h>
 
 enum AccountType {
   LIQUID = 0,
