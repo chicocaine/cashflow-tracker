@@ -1,5 +1,5 @@
-add_executable(cli_cashflow_tracker src/main.cpp)
+add_executable(cli-cashflow-tracker src/main.cpp)
 
-target_link_libraries(cli_cashflow_tracker PRIVATE tracker_core)
+target_link_libraries(cli-cashflow-tracker PRIVATE tracker_core)
 
-target_compile_options(cli_cashflow_tracker PRIVATE -O2)
+target_compile_options(cli-cashflow-tracker PRIVATE -O2)
