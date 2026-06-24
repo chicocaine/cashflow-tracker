@@ -1,3 +1,4 @@
+#include <time.h>
 #include "account.h"
 
 enum AccountType {
@@ -14,4 +15,8 @@ typedef struct Account {
   double balance;
 
   enum AccountType type;
+
+  time_t created_at;
+  time_t updated_at;
+  int is_deleted;
 } Account;

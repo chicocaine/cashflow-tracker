@@ -13,6 +13,10 @@ enum TransactionType {
 typedef struct TransactionCategory {
   int id;
   char name[50];
+  
+  time_t created_at;
+  time_t updated_at;
+  int is_deleted;
 } TransactionCategory;
 
 typedef struct Transaction {
@@ -26,7 +30,9 @@ typedef struct Transaction {
   struct TransactionCategory category;
   enum TransactionType type;
   
-  time_t timestamp;
+  time_t  created_at;
+  time_t  updated_at;
+  int is_deleted;
 } Transaction;
 
 #endif // TRANSACTION_H
