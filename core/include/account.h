@@ -2,24 +2,31 @@
 #define ACCOUNT_H
 
 #include <time.h>
+#include "currencies.h"
+#include "id.h"
 
-enum AccountType {
+typedef enum {
   LIQUID = 0,
   SAVINGS = 1,
   CREDIT = 2,
   INVESTMENT = 3
-};
+} AccountType;
 
-typedef struct Account {
-  int id;
-  char name[50];
-  char note[200];
-  double balance;
+typedef struct {
+  stdid_t id;
+  char name[64];
+  char note[256];
+  double initial_balance;
+  double current_balance;
 
-  enum AccountType type;
+  int archived;
+  int suspended;
+
+  AccountType type;
+  Currency currency;
+
   time_t created_at;
   time_t updated_at;
-  int is_deleted;
 } Account;
 
 #endif // ACCOUNT_H

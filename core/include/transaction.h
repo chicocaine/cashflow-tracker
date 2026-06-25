@@ -3,36 +3,42 @@
 
 #include <time.h>
 #include "account.h"
+#include "currencies.h"
+#include "id.h"
 
-enum TransactionType {
+typedef enum {
   INCOME = 0,
   EXPENSE = 1,
   TRANSFER = 2
-};
+} TransactionType;
 
-typedef struct TransactionCategory {
-  int id;
-  char name[50];
+typedef struct {
+  stdid_t id;
+  char name[64];
+  char description[128];
   
   time_t created_at;
   time_t updated_at;
-  int is_deleted;
+  int archived;
 } TransactionCategory;
 
-typedef struct Transaction {
-  int uuid;
-  char description[100];
-  char note[200];
+typedef struct {
+  uuid_t id;
+  char description[128];
+  char note[256];
   double amount;
-  int device_id;
   
-  struct Account account;
-  struct TransactionCategory category;
-  enum TransactionType type;
-  
+  TransactionType type;
+  int category_id;
+  Currency currency;
+
+  int archived;
+
+  int from_account_id;
+  int to_account_id;
+
   time_t  created_at;
   time_t  updated_at;
-  int is_deleted;
 } Transaction;
 
 #endif // TRANSACTION_H
