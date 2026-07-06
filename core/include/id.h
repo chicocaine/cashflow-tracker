@@ -1,3 +1,6 @@
+#ifndef ID_H
+#define ID_H
+
 #include <stdint.h>
 
 typedef struct {
@@ -19,3 +22,5 @@ typedef struct {
     stdid_t stdid;
   } value;
 } genid_t;
+
+#endif // ID_H
