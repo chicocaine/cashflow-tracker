@@ -24,8 +24,8 @@ CREATE TABLE account (
     current_balance  REAL    NOT NULL DEFAULT 0,
     archived         INTEGER NOT NULL DEFAULT 0 CHECK (archived  IN (0, 1)),
     suspended        INTEGER NOT NULL DEFAULT 0 CHECK (suspended IN (0, 1)),
-    type             INTEGER NOT NULL, -- AccountType enum   (adjust CHECK to real values)
-    currency         INTEGER NOT NULL, -- Currency enum      (adjust CHECK to real values)
+    type             INTEGER NOT NULL CHECK (type IN (0, 1, 2, 3)), -- AccountType: 0=LIQUID,1=SAVINGS,2=CREDIT,3=INVESTMENT
+    currency         INTEGER NOT NULL DEFAULT 0, -- Currency enum 
     created_at       INTEGER NOT NULL DEFAULT (strftime('%s','now')),
     updated_at       INTEGER NOT NULL DEFAULT (strftime('%s','now'))
 );
@@ -65,7 +65,7 @@ CREATE TABLE "transaction" (
     description      TEXT             CHECK (description IS NULL OR length(description) <= 128),
     note             TEXT             CHECK (note IS NULL OR length(note) <= 256),
     amount           REAL    NOT NULL,
-    type             INTEGER NOT NULL, -- TransactionType enum (adjust CHECK to real values)
+    type             INTEGER NOT NULL CHECK (type IN (0, 1, 2)), -- TransactionType: 0=INCOME,1=EXPENSE,2=TRANSFER 
     category_id      INTEGER NOT NULL,
     currency         INTEGER NOT NULL, -- Currency enum        (adjust CHECK to real values)
     archived         INTEGER NOT NULL DEFAULT 0 CHECK (archived IN (0, 1)),
@@ -123,8 +123,8 @@ CREATE TABLE operation (
     device_id       TEXT    NOT NULL CHECK (length(device_id) = 36),  -- uuid_t
     counter         INTEGER NOT NULL CHECK (counter >= 0),            -- uint64_t (see note below)
     description     TEXT             CHECK (description IS NULL OR length(description) <= 128),
-    operation_type  INTEGER NOT NULL, -- OperationType enum (adjust CHECK to real values)
-    entity_type     INTEGER NOT NULL CHECK (entity_type IN (0, 1, 2)), -- EntityType: 0=ACCOUNT,1=TRANSACTION_CATEGORY,2=TRANSACTION
+    operation_type  INTEGER NOT NULL CHECK (operation_type IN (0, 1, 2)), -- OperationType: 0=OPERATION_CREATE,1=OPERATION_UPDATE,2=OPERATION_DELETE,3=OPERATION_SUSPEND,4=OPERATION_ARCHIVE
+    entity_type     INTEGER NOT NULL CHECK (entity_type IN (0, 1, 2)), -- EntityType: 0=ACCOUNT,1=TRANSACTION,2=TRANSACTION,3=CATEGORY
     entity_id       TEXT    NOT NULL, -- genid_t: account/category id (as text) or transaction uuid
     created_at      INTEGER NOT NULL DEFAULT (strftime('%s','now')),
     updated_at      INTEGER NOT NULL DEFAULT (strftime('%s','now')),
@@ -188,3 +188,5 @@ CREATE INDEX idx_account_type      ON account (type);
 CREATE INDEX idx_account_archived  ON account (archived);
 CREATE INDEX idx_transaction_type  ON "transaction" (type);
 CREATE INDEX idx_operation_device  ON operation (device_id);
+
+-- Will Add User/Device Metadata Table
